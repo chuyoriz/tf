@@ -1,4 +1,4 @@
-const API_BASE = 'https://api-consumet-org-jade.vercel.app/anime/gogoanime'
+const API_BASE = 'https://consumet-api-37qu.onrender.com/anime/zoro'
 
 // Helper to log API responses
 function logApiResponse(endpoint, data) {
