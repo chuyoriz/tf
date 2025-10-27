@@ -11,7 +11,7 @@ function logApiResponse(endpoint, data) {
 
 export async function getAnimeInfo(id) {
   try {
-    const response = await fetch(`${API_BASE}/info/${id}`)
+    const response = await fetch(`${API_BASE}/info?id=${id}`)
     const data = await response.json()
     return data
   } catch (error) {
