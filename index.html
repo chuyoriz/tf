@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AniFlix - Stream Your World of Anime</title>
+    <meta name="description" content="Premium anime streaming platform with latest episodes and series" />
+    <link href="https://vjs.zencdn.net/8.0.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.0.0/video.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+    <script>
+      // SUPPRESS ALL THIRD-PARTY EMBED AND CORS ERRORS
+      (function() {
+        'use strict';
+        
+        const _error = console.error;
+        console.error = function() {
+          const args = Array.from(arguments);
+          const errorString = args.join(' ');
+          
+          if (errorString.includes('embed-') || 
+              errorString.includes('channel') ||
+              errorString.includes('Cannot set properties of undefined') ||
+              errorString.includes('CORS') ||
+              errorString.includes('Access to XMLHttpRequest') ||
+              errorString.includes('HLS Error') ||
+              errorString.includes('net::ERR_FAILED') ||
+              errorString.includes('manifestLoadError') ||
+              errorString.includes('ads')) {
+            return;
+          }
+          
+          return _error.apply(console, args);
+        };
+        
+        const _log = console.log;
+        console.log = function() {
+          const args = Array.from(arguments);
+          const logString = args.join(' ');
+          
+          if (logString.includes('Network error') || 
+              logString.includes('CORS') ||
+              logString.includes('fallback player')) {
+            return;
+          }
+          
+          return _log.apply(console, args);
+        };
+
+        window.addEventListener('error', function(event) {
+          const msg = event.message || '';
+          const src = event.filename || '';
+          
+          if (src.includes('embed') || 
+              src.includes('ads') || 
+              msg.includes('channel') ||
+              msg.includes('Cannot set properties')) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return false;
+          }
+        }, true);
+        
+        window.addEventListener('unhandledrejection', function(event) {
+          const reason = String(event.reason || '');
+          if (reason.includes('channel')) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+          }
+        });
+
+        const _defineProperty = Object.defineProperty;
+        Object.defineProperty = function(obj, prop, descriptor) {
+          try {
+            return _defineProperty.call(this, obj, prop, descriptor);
+          } catch (e) {
+            if (String(e).includes('channel')) {
+              return obj;
+            }
+            throw e;
+          }
+        };
+      })();
+    </script>
+  </body>
+</html>
